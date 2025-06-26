@@ -16,8 +16,8 @@ function AppLayout() {
       <Header />
 
       {/* Main content scrollable */}
-      <div className="flex-1 pt-[80px]"> {/* Header height offset */}
-        <main>
+      <div className="flex-1 pt-[88px]"> {/* Header height offset */}
+        <main >
           <Outlet />
         </main>
       </div>

@@ -4,6 +4,11 @@ import Error from './ui/Error';
 import AppLayout from './ui/AppLayout';
 import AllProducts from './features/product/AllProducts';
 import ProductDetail from './features/product/ProductDetail';
+import SignUp from './ui/SignUp';
+import SignIn from './ui/SignIn';
+import Cart from './features/cart/Cart';
+import Checkout from './features/checkout/checkout';
+import Wishlist from './features/wishlist/Wishlist';
 
 const router = createBrowserRouter([
   // Landing Page
@@ -26,6 +31,30 @@ const router = createBrowserRouter([
         element: <ProductDetail />,
         errorElement: <Error />,
       },
+      {
+        path: "/signup",
+        element: <SignUp />,
+      },
+      {
+        path: "/signin",
+        element: <SignIn />,
+      },
+      {
+        path: "/cart",
+        element: <Cart />,
+      },
+      {
+        path: "/checkout",
+        element: <Checkout />,
+      },
+      {
+        path: "/whishlist",
+        element: <Wishlist />,
+      },
+      {
+        path: '*',
+        element: <Error />,
+      }
     ],
   },
 ]);

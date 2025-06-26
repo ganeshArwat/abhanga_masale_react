@@ -8,7 +8,7 @@ const [menuOpen, setMenuOpen] = useState(false);
   return (
     <header className="fixed top-0 w-full z-50 bg-white shadow-md px-6 py-4 flex items-center justify-between">
       {/* Logo */}
-      <Link to="#section-hero" className="flex items-center gap-3">
+      <Link to="/" className="flex items-center gap-3">
         <img
           src="/assets/img/logo.png"
           alt="Abhanga Masale Logo"
@@ -32,13 +32,28 @@ const [menuOpen, setMenuOpen] = useState(false);
       {/* Desktop Icons */}
       <ul className="hidden md:flex items-center gap-6 text-lg text-gray-600 ml-auto pr-2">
         <li>
-          <Link to="#"><FiHeart className="hover:text-gray-800 transition" /></Link>
+          <Link
+            to="/whishlist"
+            className="p-2 rounded-full hover:text-[#91542b] transition duration-200"
+          >
+            <FiHeart className="text-lg" />
+          </Link>
         </li>
         <li>
-          <Link to="#"><FiShoppingCart className="hover:text-gray-800 transition" /></Link>
+          <Link
+            to="/cart"
+            className="p-2 rounded-full hover:text-[#91542b] transition duration-200"
+          >
+            <FiShoppingCart className="text-lg" />
+          </Link>
         </li>
         <li>
-          <Link to="/html/shop/signup.html"><FiUser className="hover:text-gray-800 transition" /></Link>
+          <Link
+            to="/signup"
+            className="p-2 rounded-full hover:text-[#91542b] transition duration-200"
+          >
+            <FiUser className="text-lg" />
+          </Link>
         </li>
       </ul>
 
@@ -64,15 +79,15 @@ const [menuOpen, setMenuOpen] = useState(false);
               <FiSearch className="text-lg" />
             </button>
           </form>
-          <Link to="#" className="flex items-center gap-2 text-gray-600 hover:text-gray-800">
+          <Link to="/whishlist" className="flex items-center gap-2 text-gray-600 hover:text-gray-800">
             <FiHeart />
             Wishlist
           </Link>
-          <Link to="#" className="flex items-center gap-2 text-gray-600 hover:text-gray-800">
+          <Link to="/cart" className="flex items-center gap-2 text-gray-600 hover:text-gray-800">
             <FiShoppingCart />
             Cart
           </Link>
-          <Link to="/html/shop/signup.html" className="flex items-center gap-2 text-gray-600 hover:text-gray-800">
+          <Link to="/signup" className="flex items-center gap-2 text-gray-600 hover:text-gray-800">
             <FiUser />
             Account
           </Link>

@@ -53,13 +53,12 @@ const NavBar = () => {
                 offset={-80}
                 className="cursor-pointer hover:text-[#91542b] transition duration-200"
             >Sign-Up</ScrollLink>
-            <a
-                href="/html/shop/all_product.html"
-                target="_blank"
+            <Link
+                to="/"
                 className="bg-[#91542b] text-[#f3f9e3] hover:bg-[#333] transition px-5 py-2 rounded-lg"
             >
                 Try Now
-            </a>
+            </Link>
         </nav>
 
         {/* Mobile menu button */}
@@ -76,17 +75,40 @@ const NavBar = () => {
       {/* Mobile Nav Panel */}
       {navOpen && (
         <div className="md:hidden bg-[#f3f9e3] px-6 pb-6 pt-2 shadow-lg space-y-4">
-          <a href="#featured-section" className="block text-[#333] text-lg hover:text-[#91542b]">Featured</a>
-          <a href="#about-us-section" className="block text-[#333] text-lg hover:text-[#91542b]">About Us</a>
-          <a href="#shop-section" className="block text-[#333] text-lg hover:text-[#91542b]">Shop</a>
-          <a href="#cta" className="block text-[#333] text-lg hover:text-[#91542b]">Contact</a>
-          <a
-            href="/html/shop/all_product.html"
-            target="_blank"
+          <ScrollLink
+            smooth={true}
+            duration={500}
+            offset={-80}
+            to="featured-section" className="block text-[#333] text-lg hover:text-[#91542b]">
+                Featured
+          </ScrollLink>
+          <ScrollLink 
+            smooth={true}
+            duration={500}
+            offset={-80}
+            to="about-us-section" className="block text-[#333] text-lg hover:text-[#91542b]">
+              About Us
+          </ScrollLink>
+          <ScrollLink 
+            smooth={true}
+            duration={500}
+            offset={-80}
+            to="shop-section" className="block text-[#333] text-lg hover:text-[#91542b]">
+              Shop
+          </ScrollLink>
+          <ScrollLink 
+            smooth={true}
+            duration={500}
+            offset={-80}
+            to="cta-section" className="block text-[#333] text-lg hover:text-[#91542b]">
+              Contact
+          </ScrollLink>
+          <Link
+            to="/"
             className="block text-center bg-[#91542b] text-[#f3f9e3] hover:bg-[#333] transition px-4 py-2 rounded-lg"
           >
             Try Now
-          </a>
+          </Link>
         </div>
       )}
     </header>
@@ -112,18 +134,20 @@ const HeroSection = () => {
             </p>
 
             <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-                <a
-                href="#cta"
+                <Link
+                to="/"
                 className="inline-block text-[#f3f9e3] bg-[#91542b] hover:bg-[#333] px-6 py-3 text-base font-semibold rounded-lg transition"
                 >
                 Shop Now
-                </a>
-                <a
-                href="#how"
-                className="inline-block text-[#333] border border-[#333] hover:bg-[#333] hover:text-[#f3f9e3] px-6 py-3 text-base font-semibold rounded-lg transition"
-                >
-                Discover Our Spices ↓
-                </a>
+                </Link>
+                <ScrollLink
+                  smooth={true}
+                  duration={500}
+                  offset={-80}
+                  to="shop-section"
+                  className="inline-block text-[#333] border border-[#333] hover:bg-[#333] hover:text-[#f3f9e3] px-6 py-3 text-base font-semibold rounded-lg transition">
+                    Discover Our Spices ↓
+                </ScrollLink>
             </div>
             </div>
 
@@ -201,12 +225,15 @@ function AboutUs() {
           Experience the magic of authentic flavors in every pinch, turning every meal
           into a masterpiece of aroma and taste.
         </p>
-        <a
-          href="#shop-section"
+        <ScrollLink
+          smooth={true}
+          duration={500}
+          offset={-80}
+          to="shop-section"
           className="text-white border border-white px-6 py-2 rounded hover:bg-white hover:text-[#b1912e] transition"
         >
           Discover the Magic
-        </a>
+        </ScrollLink>
       </div>
 
       {/* Right: Image */}
@@ -257,12 +284,11 @@ function ShopSection() {
                 Explore our finest collection of pure and aromatic spices,<br />
                 delivered to your doorstep.
                 </p>
-                <a
-                href="#cta"
-                className="inline-block bg-[#931f1d] text-[#f3f9e3] px-6 py-3 rounded-lg hover:bg-[#f3f9e3] hover:text-[#931f1d] border border-[#931f1d] transition font-semibold"
-                >
-                Go to Shop
-                </a>
+                <Link
+                  to="/"
+                  className="inline-block bg-[#931f1d] text-[#f3f9e3] px-6 py-3 rounded-lg hover:bg-[#f3f9e3] hover:text-[#931f1d] border border-[#931f1d] transition font-semibold">
+                    Go to Shop
+                </Link>
             </div>
 
 
@@ -304,7 +330,7 @@ const CTASection = () => {
           </p>
 
           <Link
-            to="/signup" // OR replace with: href="/signup"
+            to="/signup"
             className="inline-block px-8 py-4 text-lg font-semibold rounded bg-[#333] text-[#fff] border border-[#333] hover:text-[#333] hover:bg-[#f3f9e3] transition"
           >
             Sign Up Now
