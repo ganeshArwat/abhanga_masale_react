@@ -1,6 +1,6 @@
 // src/features/auth/authSlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { signup, signin } from './authAPI';
+import { signup, signin, forgotPassword, resetPassword } from './authAPI';
 
 const saveToken = (token) => {
   localStorage.setItem('token', token);
@@ -11,6 +11,8 @@ const initialState = {
   token: localStorage.getItem('token') || null,
   loading: false,
   error: null,
+  forgotMessage: null,
+  resetMessage: null,
 };
 
 // Signup Thunk
@@ -37,6 +39,31 @@ export const signinUser = createAsyncThunk(
   }
 );
 
+
+// Forgot Password
+export const forgotPasswordThunk = createAsyncThunk(
+  'auth/forgotPassword',
+  async (email, { rejectWithValue }) => {
+    try {
+      return await forgotPassword(email); // returns message
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || 'Failed to send reset link');
+    }
+  }
+);
+
+// Reset Password
+export const resetPasswordThunk = createAsyncThunk(
+  'auth/resetPassword',
+  async ({ token, newPassword }, { rejectWithValue }) => {
+    try {
+      return await resetPassword({ token, newPassword }); // returns message
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || 'Password reset failed');
+    }
+  }
+);
+
 const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -46,6 +73,11 @@ const authSlice = createSlice({
       state.token = null;
       localStorage.removeItem('token');
     },
+    clearAuthMessages: (state) => {
+      state.error = null;
+      state.forgotMessage = null;
+      state.resetMessage = null;
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -79,9 +111,37 @@ const authSlice = createSlice({
       .addCase(signinUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+      // Forgot Password
+      .addCase(forgotPasswordThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        state.forgotMessage = null;
+      })
+      .addCase(forgotPasswordThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.forgotMessage = action.payload.message;
+      })
+      .addCase(forgotPasswordThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      // Reset Password
+      .addCase(resetPasswordThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        state.resetMessage = null;
+      })
+      .addCase(resetPasswordThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.resetMessage = action.payload.message;
+      })
+      .addCase(resetPasswordThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       });
   },
 });
 
-export const { logout } = authSlice.actions;
+export const { logout, clearAuthMessages } = authSlice.actions;
 export default authSlice.reducer;

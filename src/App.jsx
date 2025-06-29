@@ -9,6 +9,9 @@ import SignIn from './features/auth/SignIn';
 import Cart from './features/cart/Cart';
 import Checkout from './features/checkout/checkout';
 import Wishlist from './features/wishlist/Wishlist';
+import ForgotPassword from './features/auth/ForgotPassword';
+import ResetPassword from './features/auth/ResetPassword';
+import Logout from './features/auth/Logout';
 
 const router = createBrowserRouter([
   // Landing Page
@@ -27,17 +30,29 @@ const router = createBrowserRouter([
         element: <AllProducts />,
       },
       {
-        path: '/product/:productId',
-        element: <ProductDetail />,
-        errorElement: <Error />,
-      },
-      {
         path: "/signup",
         element: <SignUp />,
       },
       {
         path: "/signin",
         element: <SignIn />,
+      },
+      {
+        path: "/forgot-password",
+        element: <ForgotPassword />,
+      },
+      {
+        path: "/reset-password",
+        element: <ResetPassword />,
+      },
+      {
+        path: "/logout",
+        element: <Logout />,
+      },
+      {
+        path: '/product/:productId',
+        element: <ProductDetail />,
+        errorElement: <Error />,
       },
       {
         path: "/cart",

@@ -1,10 +1,14 @@
-import { FiSearch, FiHeart, FiShoppingCart, FiUser, FiMenu, FiX } from "react-icons/fi";
+import { FiSearch, FiHeart, FiShoppingCart, FiUser, FiMenu, FiX, FiLogOut  } from "react-icons/fi";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
 function Header() {
-const [menuOpen, setMenuOpen] = useState(false);
-
+  const [menuOpen, setMenuOpen] = useState(false);
+  // Sample user state (replace with your actual logic)
+  // const isLoggedIn = user !== null; // Example: useSelector((state) => state.auth.user)
+  // const userName = user?.name || "User";
+  const isLoggedIn = true; // Example: useSelector((state) => state.auth.user)
+  const userName = "Ganesh";
   return (
     <header className="fixed top-0 w-full z-50 bg-white shadow-md px-6 py-4 flex items-center justify-between">
       {/* Logo */}
@@ -47,13 +51,27 @@ const [menuOpen, setMenuOpen] = useState(false);
             <FiShoppingCart className="text-lg" />
           </Link>
         </li>
-        <li>
-          <Link
-            to="/signup"
-            className="p-2 rounded-full hover:text-[#91542b] transition duration-200"
-          >
-            <FiUser className="text-lg" />
-          </Link>
+        <li className="flex items-center space-x-2">
+          {isLoggedIn ? (
+            <>
+              <span className="text-sm font-medium text-gray-800">{userName}</span>
+              <Link
+                to="/logout"
+                className="p-2 rounded-full hover:text-[#91542b] transition duration-200"
+                title="Logout"
+              >
+                <FiLogOut className="text-lg" />
+              </Link>
+            </>
+          ) : (
+            <Link
+              to="/signup"
+              className="p-2 rounded-full hover:text-[#91542b] transition duration-200"
+              title="Signup"
+            >
+              <FiUser className="text-lg" />
+            </Link>
+          )}
         </li>
       </ul>
 
@@ -79,18 +97,34 @@ const [menuOpen, setMenuOpen] = useState(false);
               <FiSearch className="text-lg" />
             </button>
           </form>
+
           <Link to="/whishlist" className="flex items-center gap-2 text-gray-600 hover:text-gray-800">
             <FiHeart />
             Wishlist
           </Link>
+
           <Link to="/cart" className="flex items-center gap-2 text-gray-600 hover:text-gray-800">
             <FiShoppingCart />
             Cart
           </Link>
-          <Link to="/signup" className="flex items-center gap-2 text-gray-600 hover:text-gray-800">
-            <FiUser />
-            Account
-          </Link>
+
+          {isLoggedIn ? (
+            <div className="flex items-center justify-between text-gray-600 hover:text-gray-800">
+              <span className="flex items-center gap-2">
+                <FiUser />
+                {userName}
+              </span>
+              <Link to="/logout" className="flex items-center gap-1 text-red-600 hover:text-red-800">
+                <FiLogOut />
+                Logout
+              </Link>
+            </div>
+          ) : (
+            <Link to="/signup" className="flex items-center gap-2 text-gray-600 hover:text-gray-800">
+              <FiUser />
+              Account
+            </Link>
+          )}
         </div>
       )}
     </header>
