@@ -56,12 +56,16 @@ function ResetPassword() {
           </p>
 
           {resetMessage ? (
-            <p className="text-green-600 text-sm">
-              ✅ {resetMessage}{" "}
-              <Link to="/signin" className="text-[#91542b] hover:underline">
-                Sign in now
-              </Link>
-            </p>
+            <>
+              <p className="text-green-600 text-sm">
+                ✅ {resetMessage}{" "}
+              </p>
+              <div className="mt-4 text-center">
+                <Link to="/signin" className="text-sm text-[#91542b] hover:underline">
+                  Back to Sign In
+                </Link>
+            </div>
+            </>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
