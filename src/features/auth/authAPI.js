@@ -25,6 +25,6 @@ export const resetPassword = async ({ token, newPassword }) => {
 
 // Optional: Get current logged-in user
 export const getProfile = async () => {
-  const response = await axios.get('/auth/profile'); // Protected route
-  return response.data;
+  const response = await axios.get('/users/me'); // Protected route
+  return response.data.data.data;
 };

@@ -1,7 +1,6 @@
 // src/features/auth/authSlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { signup, signin, forgotPassword, resetPassword } from './authAPI';
-
+import { signup, signin, forgotPassword, resetPassword, getProfile } from './authAPI';
 const saveToken = (token) => {
   localStorage.setItem('token', token);
 };
@@ -60,6 +59,18 @@ export const resetPasswordThunk = createAsyncThunk(
       return await resetPassword({ token, newPassword }); // returns message
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || 'Password reset failed');
+    }
+  }
+);
+
+// Load user thunk
+export const loadUser = createAsyncThunk(
+  'auth/loadUser',
+  async (_, { rejectWithValue }) => {
+    try {
+      return await getProfile();
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || 'Failed to load user');
     }
   }
 );
@@ -139,6 +150,24 @@ const authSlice = createSlice({
       .addCase(resetPasswordThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+      // Load User
+      .addCase(loadUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(loadUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+        console.log(action.payload);
+      })
+      .addCase(loadUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+        state.token = null; // Optional: clear token if user fetch fails
+        if (action.payload === 'jwt expired' || action.payload === 'invalid token') {
+          localStorage.removeItem('token');
+        }
       });
   },
 });
