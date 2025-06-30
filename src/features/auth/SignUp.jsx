@@ -10,7 +10,8 @@ const Signup = () => {
   const { loading, error } = useSelector((state) => state.auth);
 
   const [form, setForm] = useState({
-    name: "",
+    fname: "",
+    lname: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -27,8 +28,8 @@ const Signup = () => {
       return;
     }
 
-    const { name, email, password } = form;
-    dispatch(signupUser({ name, email, password })).then((res) => {
+    const { fname, lname, email, password } = form;
+    dispatch(signupUser({ fname, lname, email, password })).then((res) => {
       if (res.meta.requestStatus === "fulfilled") {
         toast.success("Signup successful!");
         navigate("/");
@@ -47,7 +48,8 @@ const Signup = () => {
               Create your account to explore premium spices and exclusive offers!
             </p>
             <form onSubmit={handleSubmit} className="space-y-3">
-              <input type="text" id="name" value={form.name} onChange={handleChange} required placeholder="Name" className="w-full px-1 py-1 border border-gray-300 rounded-md text-sm" />
+              <input type="text" id="fname" value={form.fname} onChange={handleChange} required placeholder="First Name" className="w-full px-1 py-1 border border-gray-300 rounded-md text-sm" />
+              <input type="text" id="lname" value={form.lname} onChange={handleChange} required placeholder="Last Name" className="w-full px-1 py-1 border border-gray-300 rounded-md text-sm" />
               <input type="email" id="email" value={form.email} onChange={handleChange} required placeholder="Email" className="w-full px-1 py-1 border border-gray-300 rounded-md text-sm" />
               <input type="password" id="password" value={form.password} onChange={handleChange} required placeholder="Password" className="w-full px-1 py-1 border border-gray-300 rounded-md text-sm" />
               <input type="password" id="confirmPassword" value={form.confirmPassword} onChange={handleChange} required placeholder="Confirm Password" className="w-full px-1 py-1 border border-gray-300 rounded-md text-sm" />

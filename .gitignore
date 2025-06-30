@@ -14,3 +14,8 @@ pnpm-debug.log*
 .env
 .env.*.local
 .env.local
+
+
+# Other server-specific ignored files
+server/node_modules/
+server/public/client_media/

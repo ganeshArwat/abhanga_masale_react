@@ -1,14 +1,13 @@
 import { FiSearch, FiHeart, FiShoppingCart, FiUser, FiMenu, FiX, FiLogOut  } from "react-icons/fi";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
-  // Sample user state (replace with your actual logic)
-  // const isLoggedIn = user !== null; // Example: useSelector((state) => state.auth.user)
-  // const userName = user?.name || "User";
-  const isLoggedIn = true; // Example: useSelector((state) => state.auth.user)
-  const userName = "Ganesh";
+  const user = useSelector((state) => state.auth.user);
+  const isLoggedIn = user !== null; // Example: useSelector((state) => state.auth.user)
+  const userName = (user?.fname || "User").toUpperCase();
   return (
     <header className="fixed top-0 w-full z-50 bg-white shadow-md px-6 py-4 flex items-center justify-between">
       {/* Logo */}
