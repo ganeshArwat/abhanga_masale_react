@@ -7,7 +7,7 @@ export const signup = async (userData) => {
 };
 
 export const signin = async (credentials) => {
-  const response = await axios.post('/auth/signin', credentials);
+  const response = await axios.post('/auth/login', credentials);
   return response.data; // { user, token }
 };
 
