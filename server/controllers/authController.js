@@ -5,6 +5,7 @@ const catchAsync = require("./../utils/catchAsync");
 const AppError = require("./../utils/appError");
 const sendEmail = require("./../utils/email");
 const crypto = require("crypto");
+const dotenv = require("dotenv");
 
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -169,17 +170,46 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   await user.save({ validateBeforeSave: false });
 
   // 3) Send it to user's email
-  const resetURL = `${req.protocol}://${req.get(
-    "host"
-  )}/api/v1/users/resetPassword/${resetToken}`;
+  const resetURL = `${process.env.CLIENT_URL}reset-password?token=${resetToken}`;
 
-  const message = `Forgot your password? Submit a PATCH request with your new password and passwordConfirm to: ${resetURL}\nIf you didn't forget your password, please ignore this email!`;
+  const message = ``;
 
   try {
     await sendEmail({
       email: user.email,
       subject: "Abhang masale | Your password reset token (valid for 10 min)",
       message,
+      html: `
+        <div style="max-width: 600px; margin: auto; padding: 20px; font-family: Arial, sans-serif; background-color: #f9f9f9; border-radius: 8px;">
+          <div style="text-align: center;">
+            <h2 style="color: #91542b;">Abhang Masale</h2>
+            <p style="font-size: 16px; color: #333;">Hello,${user.fname}</p>
+          </div>
+
+          <p style="font-size: 15px; color: #333;">
+            We received a request to reset the password associated with this email address.
+          </p>
+
+          <p style="font-size: 15px; color: #333;">
+            If you made this request, please click the button below to reset your password. This link is valid for the next <strong>10 minutes</strong>.
+          </p>
+
+          <div style="text-align: center; margin: 30px 0;">
+            <a href="${resetURL}" target="_blank"
+              style="background-color: #91542b; color: #fff; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-size: 16px;">
+              Reset Password
+            </a>
+          </div>
+
+          <p style="font-size: 14px; color: #777;">
+            If you didn't request a password reset, you can safely ignore this email. Your account will remain secure.
+          </p>
+
+          <p style="font-size: 14px; color: #999; margin-top: 40px; text-align: center;">
+            &copy; ${new Date().getFullYear()} Abhang Masale. All rights reserved.
+          </p>
+        </div>
+      `
     });
   } catch (err) {
     user.passwordResetToken = undefined;
@@ -194,7 +224,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
 
   res.status(200).json({
     status: "success",
-    message: "Token sent to email!",
+    message: "Reset Email sent successfully!",
   });
 });
 
@@ -224,7 +254,12 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   // 3) Update changedPasswordAt property for the user
 
   // 4) Log the user in, send JWT
-  createSendToken(user, 200, res);
+  // createSendToken(user, 200, res);
+
+  res.status(200).json({
+    status: "success",
+    message: "Password updated successfully!",
+  });
 });
 
 exports.updatePassword = catchAsync(async (req, res, next) => {

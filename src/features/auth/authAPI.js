@@ -12,13 +12,12 @@ export const signin = async (credentials) => {
 };
 
 export const forgotPassword = async (email) => {
-  const response = await axios.post("/auth/forgot-password", { email });
+  const response = await axios.post("/auth/forgotPassword", { email });
   return response.data; // e.g., { message: "Reset link sent" }
 };
 
 export const resetPassword = async ({ token, newPassword }) => {
-  const response = await axios.post(`/auth/reset-password`, {
-    token,
+  const response = await axios.patch(`/auth/resetPassword/${token}`, {
     password: newPassword,
   });
   return response.data; // e.g., { message: "Password reset successful" }
