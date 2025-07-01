@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import {
   FiGrid, FiBox, FiTag, FiShoppingBag, FiX
 } from 'react-icons/fi';
@@ -15,11 +15,13 @@ function Sidebar({ onClose }) {
     <div className="h-full flex flex-col p-5">
       {/* Logo + Close (mobile only) */}
       <div className="flex justify-between lg:justify-center items-center mb-8">
-        <img
-          src="/assets/img/logo.png"
-          alt="Logo"
-          className="h-12 lg:h-14 w-auto rounded-lg"
-        />
+        <Link to="/admin/dashboard">
+          <img
+            src="/assets/img/logo.png"
+            alt="Logo"
+            className="h-12 lg:h-14 w-auto rounded-lg"
+          />
+        </Link>
         <button
           className="md:hidden text-gray-500"
           onClick={onClose}

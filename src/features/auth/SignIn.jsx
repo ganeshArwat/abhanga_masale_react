@@ -19,8 +19,15 @@ const SignIn = () => {
     e.preventDefault();
     dispatch(signinUser(form)).then((res) => {
       if (res.meta.requestStatus === "fulfilled") {
-        toast.success("Signup successful!");
-        navigate("/");
+        const user = res.payload?.data.user;
+
+        toast.success("Signin successful!");
+        // Check role and redirect accordingly
+        if (user?.role === "admin") {
+          navigate("/admin");
+        } else {
+          navigate("/");
+        }
       }
     });
   };

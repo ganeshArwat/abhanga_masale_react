@@ -1,4 +1,6 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { Navigate } from "react-router-dom";
+
 import Website from './website/website';
 import Error from './ui/Error';
 import AppLayout from './ui/AppLayout';
@@ -84,12 +86,16 @@ const router = createBrowserRouter([
     errorElement: <Error />,
     children: [
       {
-        path: 'categories',
-        element: <CategoryList />,
+        index: true, // This handles /admin
+        element: <Navigate to="/admin/dashboard" replace />,
       },
       {
         path: 'dashboard',
         element: <Dashboard />,
+      },
+      {
+        path: 'categories',
+        element: <CategoryList />,
       },
       {
         path: "products",
