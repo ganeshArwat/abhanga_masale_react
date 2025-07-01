@@ -1,21 +1,31 @@
-import { FiUser, FiLogOut, FiGrid } from 'react-icons/fi';
+import { FiUser, FiLogOut, FiGrid, FiMenu } from 'react-icons/fi';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-function Topbar() {
+function Topbar({ onToggleSidebar }) {
   const user = useSelector((state) => state.auth.user);
   const isLoggedIn = user !== null;
   const userName = (user?.fname || 'Admin').toUpperCase();
 
   return (
-    <header className="bg-white border-b shadow-sm px-6 py-4 flex items-center justify-between">
-      {/* Brand Title */}
-      <div className="flex items-center gap-2 text-[#91542b]">
-        <FiGrid className="text-xl" />
-        <h1 className="text-xl font-bold tracking-wide">Admin Panel</h1>
+    <header className="bg-white border-b shadow-sm px-4 py-3 flex items-center justify-between sticky top-0 z-30">
+      <div className="flex items-center gap-3 text-[#91542b]">
+        {/* Menu icon only for mobile */}
+        <button
+          className="md:hidden text-2xl"
+          onClick={onToggleSidebar}
+          aria-label="Toggle Sidebar"
+        >
+          <FiMenu />
+        </button>
+
+        <div className="flex items-center gap-2">
+          <FiGrid className="text-xl" />
+          <h1 className="text-lg font-bold tracking-wide">Admin Panel</h1>
+        </div>
       </div>
 
-      {/* User Section */}
+      {/* User Info */}
       <div className="flex items-center gap-4">
         {isLoggedIn ? (
           <>

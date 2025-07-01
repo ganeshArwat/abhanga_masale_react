@@ -1,8 +1,6 @@
-// admin/components/Sidebar.jsx
 import { NavLink } from 'react-router-dom';
 import {
-  FiGrid, FiBox, FiPlusSquare, FiTag,
-  FiShoppingBag, FiUsers, FiSettings
+  FiGrid, FiBox, FiTag, FiShoppingBag, FiX
 } from 'react-icons/fi';
 
 const navItems = [
@@ -10,28 +8,34 @@ const navItems = [
   { to: '/admin/categories', label: 'Categories', icon: <FiTag /> },
   { to: '/admin/products', label: 'Products', icon: <FiBox /> },
   { to: '/admin/orders', label: 'Orders', icon: <FiShoppingBag /> },
-  // { to: '/admin/users', label: 'Users', icon: <FiUsers /> },
-  // { to: '/admin/settings', label: 'Settings', icon: <FiSettings /> },
 ];
 
-function Sidebar() {
+function Sidebar({ onClose }) {
   return (
-    <aside className="w-64 bg-white border-r border-gray-200 h-screen p-5 shadow-sm">
-        <div className="mb-8 flex justify-center">
+    <div className="h-full flex flex-col p-5">
+      {/* Logo + Close (mobile only) */}
+      <div className="flex justify-between lg:justify-center items-center mb-8">
         <img
-            src="/assets/img/logo.png"
-            alt="Rutu Masale Logo"
-            className="h-14 w-auto rounded-lg"
+          src="/assets/img/logo.png"
+          alt="Logo"
+          className="h-12 lg:h-14 w-auto rounded-lg"
         />
-        </div>
+        <button
+          className="md:hidden text-gray-500"
+          onClick={onClose}
+        >
+          <FiX className="text-2xl" />
+        </button>
+      </div>
 
       <nav className="flex flex-col gap-3">
         {navItems.map((item) => (
           <NavLink
             key={item.to}
             to={item.to}
+            onClick={onClose}
             className={({ isActive }) =>
-              `flex items-center gap-3 px-4 py-2 rounded-md font-medium transition-all duration-150 ${
+              `flex items-center gap-3 px-4 py-2 rounded-md font-medium transition-all ${
                 isActive
                   ? 'bg-[#91542b] text-white'
                   : 'text-gray-700 hover:bg-[#f6f1e7] hover:text-[#91542b]'
@@ -39,11 +43,11 @@ function Sidebar() {
             }
           >
             <span className="text-lg">{item.icon}</span>
-            <span>{item.label}</span>
+            {item.label}
           </NavLink>
         ))}
       </nav>
-    </aside>
+    </div>
   );
 }
 
