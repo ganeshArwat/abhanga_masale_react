@@ -12,6 +12,12 @@ import Wishlist from './features/wishlist/Wishlist';
 import ForgotPassword from './features/auth/ForgotPassword';
 import ResetPassword from './features/auth/ResetPassword';
 import Logout from './features/auth/Logout';
+import AdminLayout from './ui/AdminLayout';
+import CategoryList from './features/category/CategoryList';
+import Dashboard from './features/admin/Dashboard';
+import ProductList from './features/admin/products/ProductList';
+import OrderList from './features/admin/orders/OrderList';
+import OrderDetail from './features/admin/orders/OrderDetail';
 
 const router = createBrowserRouter([
   // Landing Page
@@ -72,6 +78,37 @@ const router = createBrowserRouter([
       }
     ],
   },
+  {
+    path: '/admin',
+    element: <AdminLayout />,
+    errorElement: <Error />,
+    children: [
+      {
+        path: 'categories',
+        element: <CategoryList />,
+      },
+      {
+        path: 'dashboard',
+        element: <Dashboard />,
+      },
+      {
+        path: "products",
+        element: <ProductList />,
+      },
+      {
+        path: "orders",
+        element: <OrderList />,
+      },
+      {
+        path: "orders/:orderId",
+        element: <OrderDetail />,
+      }
+    ],
+  },
+  {
+    path: '*',
+    element: <Error />,
+  }
 ]);
 
 function App() {
