@@ -8,6 +8,7 @@
     "dev": "nodemon server.js",
     "prod": "NODE_ENV=production nodemon server.js",
     "debug": "ndb server.js",
+    "build": "echo 'Nothing to build'",
     "start": "node server.js"
   },
   "author": "GaneshArwat",
