@@ -22,6 +22,16 @@ categorySchema.pre("save", function (next) {
   next();
 });
 
+// ✅ For findByIdAndUpdate, findOneAndUpdate, etc.
+categorySchema.pre("findOneAndUpdate", function (next) {
+  const update = this.getUpdate();
+  if (update?.name) {
+    update.slug = slugify(update.name, { lower: true });
+    this.setUpdate(update);
+  }
+  next();
+});
+
 // Filter out inactive categories globally
 categorySchema.pre(/^find/, function (next) {
   this.find({ active: { $ne: false } });

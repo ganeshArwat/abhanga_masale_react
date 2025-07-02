@@ -17,10 +17,10 @@ router
     categoryController.getAllCategories
   );
 
-// router
-//   .route("/:id")
-//   .get(categoryController.getCategory)
-//   .patch(authController.protect, categoryController.updateCategory)
-//   .delete(authController.protect, categoryController.deleteCategory);
+router
+  .route("/:id")
+  .get(categoryController.getCategory)
+  .patch(authController.protect, authController.restrictTo("admin"), categoryController.updateCategory)
+  .delete(authController.protect, authController.restrictTo("admin"), categoryController.deleteCategory);
 
 module.exports = router;

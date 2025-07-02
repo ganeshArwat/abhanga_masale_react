@@ -11,7 +11,6 @@ function AdminLayout() {
   const user = useSelector((state) => state.auth.user);
 
   useEffect(() => {
-    console.log(token, user);
     if (token && !user) {
       dispatch(loadUser());
     }

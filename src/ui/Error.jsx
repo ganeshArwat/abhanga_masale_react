@@ -3,7 +3,6 @@ import { FiAlertTriangle } from "react-icons/fi";
 
 function Error() {
   const error = useRouteError();
-  console.error(error);
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-[#fdf9f3] text-center px-4">

@@ -1,16 +1,35 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FiEdit, FiTrash2, FiPlus } from "react-icons/fi";
 import CategoryFormModal from "./CategoryFormModal";
-
-const mockCategories = [
-  { id: 1, name: "Spices", slug: "spices" },
-  { id: 2, name: "Bakery Premix", slug: "bakery-premix" },
-];
+import {
+  fetchCategories,
+  createCategory,
+  updateCategory,
+  deleteCategory,
+} from "./categoryAPI";
+import { toast } from "react-hot-toast";
 
 function CategoryList() {
+  const [categories, setCategories] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editData, setEditData] = useState(null);
-  const [categories, setCategories] = useState(mockCategories);
+  const [loading, setLoading] = useState(false);
+
+  const loadCategories = async () => {
+    try {
+      setLoading(true);
+      const data = await fetchCategories();
+      setCategories(data);
+    } catch (err) {
+      toast.error("Failed to load categories");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadCategories();
+  }, []);
 
   const openAddModal = () => {
     setEditData(null);
@@ -22,16 +41,32 @@ function CategoryList() {
     setIsModalOpen(true);
   };
 
-  const handleFormSubmit = (data) => {
-    if (editData) {
-      setCategories((prev) =>
-        prev.map((c) => (c.id === editData.id ? { ...c, ...data } : c))
-      );
-    } else {
-      setCategories((prev) => [
-        ...prev,
-        { ...data, id: Date.now() }, // temporary ID
-      ]);
+  const handleFormSubmit = async (data) => {
+    try {
+      if (editData) {
+        const updated = await updateCategory(editData._id, data);
+        setCategories((prev) =>
+          prev.map((c) => (c._id === editData._id ? updated : c))
+        );
+        toast.success("Category updated");
+      } else {
+        const created = await createCategory(data);
+        setCategories((prev) => [created, ...prev]);
+        toast.success("Category added");
+      }
+      setIsModalOpen(false);
+    } catch (err) {
+      toast.error("Something went wrong");
+    }
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await deleteCategory(id);
+      setCategories((prev) => prev.filter((c) => c._id !== id));
+      toast.success("Category deleted");
+    } catch (err) {
+      toast.error("Failed to delete");
     }
   };
 
@@ -59,34 +94,42 @@ function CategoryList() {
             </tr>
           </thead>
           <tbody>
-            {categories.map((cat, index) => (
-              <tr
-                key={cat.id}
-                className="hover:bg-[#fdf9f3] transition-all border-b border-gray-100"
-              >
-                <td className="px-5 py-4">{index + 1}</td>
-                <td className="px-5 py-4">{cat.name}</td>
-                <td className="px-5 py-4">{cat.slug}</td>
-                <td className="px-5 py-4">
-                  <div className="flex gap-4 items-center">
-                    <button
-                      onClick={() => openEditModal(cat)}
-                      title="Edit"
-                      className="text-blue-600 hover:text-blue-800"
-                    >
-                      <FiEdit className="text-lg" />
-                    </button>
-                    <button
-                      onClick={() => setCategories(categories.filter(c => c.id !== cat.id))}
-                      title="Delete"
-                      className="text-red-600 hover:text-red-800"
-                    >
-                      <FiTrash2 className="text-lg" />
-                    </button>
-                  </div>
+            {loading ? (
+              <tr>
+                <td className="px-5 py-4" colSpan={4}>
+                  Loading...
                 </td>
               </tr>
-            ))}
+            ) : (
+              categories.map((cat, index) => (
+                <tr
+                  key={cat._id}
+                  className="hover:bg-[#fdf9f3] transition-all border-b border-gray-100"
+                >
+                  <td className="px-5 py-4">{index + 1}</td>
+                  <td className="px-5 py-4">{cat.name}</td>
+                  <td className="px-5 py-4">{cat.slug}</td>
+                  <td className="px-5 py-4">
+                    <div className="flex gap-4 items-center">
+                      <button
+                        onClick={() => openEditModal(cat)}
+                        title="Edit"
+                        className="text-blue-600 hover:text-blue-800"
+                      >
+                        <FiEdit className="text-lg" />
+                      </button>
+                      <button
+                        onClick={() => handleDelete(cat._id)}
+                        title="Delete"
+                        className="text-red-600 hover:text-red-800"
+                      >
+                        <FiTrash2 className="text-lg" />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>
