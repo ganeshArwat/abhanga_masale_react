@@ -15,6 +15,7 @@ const golbalErrorHandler = require("./controllers/errorController");
 const userRouter = require("./routes/userRoutes");
 const attachmentRouter = require("./routes/attachmentRoutes");
 const authRouter = require("./routes/authRoutes");
+const categoryRouter = require("./routes/categoryRoutes");
 // process.env.NODE_ENV = 'production';
 
 const app = express();
@@ -75,6 +76,7 @@ app.use((req, res, next) => {
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/attachment", attachmentRouter);
+app.use("/api/v1/category", categoryRouter);
 
 
 app.all("*", (req, res, next) => {
