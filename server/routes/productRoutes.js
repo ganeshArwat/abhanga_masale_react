@@ -4,6 +4,9 @@ const authController = require("../controllers/authController");
 
 const router = express.Router();
 
+router.get("/getProductBySlug/:productSlug", productController.getProductBySlug);
+router.get("/random_products/:productSlug", productController.getRandomProductBySlug);
+
 router
   .route("/")
   .get(productController.getAllProducts)
