@@ -76,6 +76,7 @@ app.use("/api/v1/users", userRouter);
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/attachment", attachmentRouter);
 app.use("/api/v1/category", categoryRouter);
+app.use("/api/v1/product", productRouter);
 
 
 app.all("*", (req, res, next) => {
