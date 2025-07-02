@@ -93,7 +93,7 @@ exports.getOne = (Model, module_type = 0, popOptions) =>
 /**
  * Get all documents with filtering, pagination, optional user_id and attachments
  */
-exports.getAll = (Model, by_user_id = false, module_type = 0) =>
+exports.getAll = (Model, by_user_id = false, module_type = 0, popOptions) =>
   catchAsync(async (req, res, next) => {
     const filter = by_user_id ? { user_id: req.params.user_id } : {};
 
@@ -103,7 +103,9 @@ exports.getAll = (Model, by_user_id = false, module_type = 0) =>
       // .limitFields()
       .paginate();
 
-    const docs = await features.query;
+    const query = features.query;
+    if (popOptions) query.populate(popOptions);
+    const docs = await query;
 
     let results = docs;
     if (module_type > 0) {

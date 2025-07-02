@@ -16,6 +16,7 @@ const userRouter = require("./routes/userRoutes");
 const attachmentRouter = require("./routes/attachmentRoutes");
 const authRouter = require("./routes/authRoutes");
 const categoryRouter = require("./routes/categoryRoutes");
+const productRouter = require("./routes/productRoutes");
 // process.env.NODE_ENV = 'production';
 
 const app = express();
