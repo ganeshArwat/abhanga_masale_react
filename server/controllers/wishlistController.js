@@ -12,7 +12,17 @@ exports.toggleWishlist = async (req, res) => {
   }
 
   await user.save();
-  res.status(200).json({ status: 'success', wishlist: user.wishlist });
+
+  // Populate wishlist with product objects
+  await user.populate({
+    path: 'wishlist',
+    select: 'name image currentPrice oldPrice slug',
+  });
+
+  res.status(200).json({
+    status: 'success',
+    wishlist: user.wishlist,
+  });
 };
 
 exports.getWishlist = async (req, res) => {

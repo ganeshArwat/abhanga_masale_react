@@ -13,7 +13,7 @@ const ProductCard = ({ slug, name, image, currentPrice, oldPrice, _id }) => {
   const [isWishlisted, setIsWishlisted] = useState(false);
 
   useEffect(() => {
-    setIsWishlisted(wishlist.includes(_id));
+    setIsWishlisted(wishlist.some((item) => item._id === _id));
   }, [wishlist, _id]);
 
   const handleWishlist = () => {
