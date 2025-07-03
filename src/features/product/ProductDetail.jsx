@@ -7,6 +7,7 @@ import { fetchProductBySlug, fetchSimilarProducts } from "../../features/product
 import { addToCart } from "../../features/cart/cartSlice";
 const apiUrl = import.meta.env.VITE_API_URL;
 import { toast } from 'react-hot-toast';
+import { useRef } from "react";
 
 const ProductDetail = () => {
   const { productSlug } = useParams();
@@ -15,6 +16,7 @@ const ProductDetail = () => {
   const [similarProducts, setSimilarProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const token = useSelector((state) => state.auth.token);
+  const topRef = useRef(null);
 
   useEffect(() => {
     const loadProductData = async () => {
@@ -47,6 +49,12 @@ const ProductDetail = () => {
     loadSimilar();
   }, [productSlug]);
 
+  useEffect(() => {
+    if (topRef.current) {
+      topRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [productSlug]);
+
   if (loading || !product)
     return (
       <div className="pt-[80px] min-h-screen flex items-center justify-center">
@@ -62,7 +70,7 @@ const ProductDetail = () => {
   };
 
   return (
-    <main className="pt-[80px] px-4 md:px-10 pb-12 bg-white min-h-screen">
+    <main ref={topRef} className="pt-[80px] px-4 md:px-10 pb-12 bg-white min-h-screen">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
         <div className="w-full flex justify-center">
           <img
