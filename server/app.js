@@ -18,6 +18,8 @@ const authRouter = require("./routes/authRoutes");
 const categoryRouter = require("./routes/categoryRoutes");
 const productRouter = require("./routes/productRoutes");
 const cartRouter = require("./routes/cartRoutes");
+const wishlistRoutes = require("./routes/wishlistRoutes");
+
 // process.env.NODE_ENV = 'production';
 
 const app = express();
@@ -36,13 +38,13 @@ if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 
-const limiter = rateLimit({
-  max: 100,
-  windowMs: 60 * 60 * 1000,
-  message: "Too many requests from this IP, please try again in an hour",
-});
+// const limiter = rateLimit({
+//   max: 100,
+//   windowMs: 60 * 60 * 1000,
+//   message: "Too many requests from this IP, please try again in an hour",
+// });
 
-app.use("/api", limiter);
+// app.use("/api", limiter);
 
 app.use(express.json({ limit: "10kb" }));
 app.use(cookieParser());
@@ -79,6 +81,7 @@ app.use("/api/v1/attachment", attachmentRouter);
 app.use("/api/v1/category", categoryRouter);
 app.use("/api/v1/product", productRouter);
 app.use("/api/v1/cart", cartRouter);
+app.use("/api/v1/wishlist", wishlistRoutes);
 
 
 app.all("*", (req, res, next) => {

@@ -4,6 +4,7 @@ import Loader from './Loader';
 import { Outlet, useNavigate, useNavigation } from 'react-router-dom';
 import { loadUser } from './../features/auth/authSlice';
 import { useEffect } from 'react';
+import { fetchWishlist } from '../features/wishlist/wishlistSlice';
 
 function AppLayout() {
 
@@ -15,6 +16,9 @@ function AppLayout() {
   useEffect(() => {
     if (token && !user) {
       dispatch(loadUser());
+    }
+    if(token){
+      dispatch(fetchWishlist())
     }
   }, [dispatch, token, user]);
 

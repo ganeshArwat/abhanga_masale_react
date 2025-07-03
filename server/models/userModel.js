@@ -36,6 +36,12 @@ const userSchema = new mongoose.Schema({
   passwordResetExpires: Date,
   phone: String,
   profile_image: String,
+  wishlist: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Product",
+    }
+  ],
   createdAt: {
     type: Date,
     default: Date.now,
