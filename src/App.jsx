@@ -20,6 +20,9 @@ import Dashboard from './features/admin/Dashboard';
 import ProductList from './features/admin/products/ProductList';
 import OrderList from './features/admin/orders/OrderList';
 import OrderDetail from './features/admin/orders/OrderDetail';
+import OrderSuccess from './ui/OrderSuccess';
+import MyOrders from './features/orders/MyOrders';
+import OrderDetails from './features/orders/OrderDetails';
 
 const router = createBrowserRouter([
   // Landing Page
@@ -73,6 +76,18 @@ const router = createBrowserRouter([
       {
         path: "/whishlist",
         element: <Wishlist />,
+      },
+      {
+        path: "/order-success",
+        element: <OrderSuccess />,
+      },
+      {
+        path: "/orders",
+        element: <MyOrders />,
+      },
+      {
+        path: "/order/:orderId",
+        element: <OrderDetails />,
       },
       {
         path: '*',

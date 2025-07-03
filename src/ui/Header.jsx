@@ -1,13 +1,42 @@
-import { FiSearch, FiHeart, FiShoppingCart, FiUser, FiMenu, FiX, FiLogOut  } from "react-icons/fi";
-import { useState } from "react";
+import {
+  FiSearch,
+  FiHeart,
+  FiShoppingCart,
+  FiUser,
+  FiMenu,
+  FiX,
+  FiLogOut,
+  FiChevronDown,
+} from "react-icons/fi";
+import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
+// Optional hook for outside click
+function useOutsideClick(ref, callback) {
+  const handleClick = (e) => {
+    if (ref.current && !ref.current.contains(e.target)) {
+      callback();
+    }
+  };
+
+  useState(() => {
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
+}
+
 function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const userMenuRef = useRef();
+
   const user = useSelector((state) => state.auth.user);
-  const isLoggedIn = user !== null; // Example: useSelector((state) => state.auth.user)
+  const isLoggedIn = user !== null;
   const userName = (user?.fname || "User").toUpperCase();
+
+  useOutsideClick(userMenuRef, () => setUserMenuOpen(false));
+
   return (
     <header className="fixed top-0 w-full z-50 bg-white shadow-md px-6 py-4 flex items-center justify-between">
       {/* Logo */}
@@ -50,18 +79,19 @@ function Header() {
             <FiShoppingCart className="text-lg" />
           </Link>
         </li>
-        <li className="flex items-center space-x-2">
+
+        {/* User Dropdown */}
+        <li className="relative" ref={userMenuRef}>
           {isLoggedIn ? (
-            <>
+            <button
+              onClick={() => setUserMenuOpen((prev) => !prev)}
+              className="flex items-center gap-2 p-2 rounded-full hover:text-[#91542b] transition duration-200"
+              title="Account"
+            >
+              <FiUser className="text-lg" />
               <span className="text-sm font-medium text-gray-800">{userName}</span>
-              <Link
-                to="/logout"
-                className="p-2 rounded-full hover:text-[#91542b] transition duration-200"
-                title="Logout"
-              >
-                <FiLogOut className="text-lg" />
-              </Link>
-            </>
+              <FiChevronDown className={`text-sm transition-transform ${userMenuOpen ? "rotate-180" : ""}`} />
+            </button>
           ) : (
             <Link
               to="/signup"
@@ -70,6 +100,33 @@ function Header() {
             >
               <FiUser className="text-lg" />
             </Link>
+          )}
+
+          {/* Dropdown Menu */}
+          {userMenuOpen && isLoggedIn && (
+            <div className="absolute right-0 top-full mt-2 w-40 bg-white border border-gray-200 shadow-md rounded-md z-50 text-sm">
+              {/* <Link
+                to="/profile"
+                className="block px-4 py-2 hover:bg-gray-100 text-gray-700"
+                onClick={() => setUserMenuOpen(false)}
+              >
+                My Profile
+              </Link> */}
+              <Link
+                to="/orders"
+                className="block px-4 py-2 hover:bg-gray-100 text-gray-700"
+                onClick={() => setUserMenuOpen(false)}
+              >
+                My Orders
+              </Link>
+              <Link
+                to="/logout"
+                className="block px-4 py-2 hover:bg-gray-100 text-red-600"
+                onClick={() => setUserMenuOpen(false)}
+              >
+                Logout
+              </Link>
+            </div>
           )}
         </li>
       </ul>
@@ -108,16 +165,19 @@ function Header() {
           </Link>
 
           {isLoggedIn ? (
-            <div className="flex items-center justify-between text-gray-600 hover:text-gray-800">
-              <span className="flex items-center gap-2">
+            <>
+              <Link to="/profile" className="flex items-center gap-2 text-gray-600 hover:text-gray-800">
                 <FiUser />
-                {userName}
-              </span>
-              <Link to="/logout" className="flex items-center gap-1 text-red-600 hover:text-red-800">
+                My Profile
+              </Link>
+              <Link to="/orders" className="flex items-center gap-2 text-gray-600 hover:text-gray-800">
+                📦 My Orders
+              </Link>
+              <Link to="/logout" className="flex items-center gap-2 text-red-600 hover:text-red-800">
                 <FiLogOut />
                 Logout
               </Link>
-            </div>
+            </>
           ) : (
             <Link to="/signup" className="flex items-center gap-2 text-gray-600 hover:text-gray-800">
               <FiUser />
