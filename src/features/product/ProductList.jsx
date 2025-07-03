@@ -19,8 +19,7 @@ const ProductList = ({ products = [], loading, sortOption, setSortOption }) => {
             value={sortOption}
             onChange={(e) => setSortOption(e.target.value)}
           >
-            <option value="new">Newest First</option>
-            <option value="old">Oldest First</option>
+            <option value="">Default</option>
             <option value="priceLowHigh">Price: Low to High</option>
             <option value="priceHighLow">Price: High to Low</option>
           </select>
