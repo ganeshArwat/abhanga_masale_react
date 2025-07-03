@@ -17,6 +17,7 @@ const attachmentRouter = require("./routes/attachmentRoutes");
 const authRouter = require("./routes/authRoutes");
 const categoryRouter = require("./routes/categoryRoutes");
 const productRouter = require("./routes/productRoutes");
+const cartRouter = require("./routes/cartRoutes");
 // process.env.NODE_ENV = 'production';
 
 const app = express();
@@ -77,6 +78,7 @@ app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/attachment", attachmentRouter);
 app.use("/api/v1/category", categoryRouter);
 app.use("/api/v1/product", productRouter);
+app.use("/api/v1/cart", cartRouter);
 
 
 app.all("*", (req, res, next) => {

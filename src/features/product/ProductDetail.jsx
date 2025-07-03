@@ -1,15 +1,20 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import ProductCard from "./ProductCard";
 import { FaStar } from "react-icons/fa";
 import { fetchProductBySlug, fetchSimilarProducts } from "../../features/product/productAPI";
+import { addToCart } from "../../features/cart/cartSlice";
 const apiUrl = import.meta.env.VITE_API_URL;
+import { toast } from 'react-hot-toast';
 
 const ProductDetail = () => {
   const { productSlug } = useParams();
+  const dispatch = useDispatch();
   const [product, setProduct] = useState(null);
   const [similarProducts, setSimilarProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const token = useSelector((state) => state.auth.token);
 
   useEffect(() => {
     const loadProductData = async () => {
@@ -49,6 +54,13 @@ const ProductDetail = () => {
       </div>
     );
 
+  const handleAddToCart = () => {
+    if (!token) return toast.error("Please log in to add to cart");
+    dispatch(addToCart({ productId: product._id, quantity: 1 }))
+      .then(() => toast.success("Item added to cart"))
+      .catch(() => toast.error("Error adding to cart"));
+  };
+
   return (
     <main className="pt-[80px] px-4 md:px-10 pb-12 bg-white min-h-screen">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
@@ -80,7 +92,10 @@ const ProductDetail = () => {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 pt-4">
-            <button className="w-full sm:w-auto bg-[#91542b] hover:bg-[#333] text-white py-2 px-6 rounded-md md:px-9">
+            <button
+              onClick={handleAddToCart}
+              className="w-full sm:w-auto bg-[#91542b] hover:bg-[#333] text-white py-2 px-6 rounded-md md:px-9"
+            >
               Add to Cart
             </button>
             <button className="w-full sm:w-auto bg-[#b88c2c] hover:bg-[#333] text-white py-2 px-6 rounded-md md:px-9">
