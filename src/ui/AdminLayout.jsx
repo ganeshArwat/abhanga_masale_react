@@ -1,12 +1,13 @@
 import Sidebar from './admin/Sidebar';
 import Topbar from './admin/Topbar';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadUser } from '../features/auth/authSlice';
 
 function AdminLayout() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const token = useSelector((state) => state.auth.token);
   const user = useSelector((state) => state.auth.user);
 
@@ -16,6 +17,12 @@ function AdminLayout() {
     }
   }, [dispatch, token, user]);
 
+   useEffect(() => {
+    if (user && user.role == 'admin') {
+    }else{
+      navigate('/signin');
+    }
+  }, [user, navigate]);
   
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
